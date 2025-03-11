@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            padding: 20px 50px;
+            background-color: #222;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header a{
+            text-decoration: none;
+            background-color: #fff;
+            padding: 8px 10px;
+            color: #222;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .table-container {
+            overflow: auto;
+            height: 520px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Fixer l'en-tête */
+        th {
+            background-color: #222;
+            color: white;
+            z-index: 1;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:nth-child(even){
+            background-color: #b9b6b6;
+        }
+
+        img {
+            height: 80px;
+            border-radius: 10px;
+        }
+
+        .quantity {
+            width: 50px;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-remove {
+            background-color: red;
+            color: white;
+            margin-left: 20px;
+        }
+
+        .btn-edit {
+            background-color: #4f90bb;
+            color: #fff;
+        }
+
+        .btn-remove:hover {
+            background-color: darkred;
+        }
+
+        .btn-edit:hover {
+            background-color: rgb(15, 39, 252);
+        }
+
+
+        .btn-checkout {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            background-color: #ff6600;
+            color: white;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .btn-checkout:hover {
+            background-color: #e55b00;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="{% url 'connecte' %}" class="btn"><i class="fa-solid fa-rotate-left"></i></a>
+</header>
+
+<div class="container">
+    {% if paniers %}
+        <h2>Mon panier</h2>
+
+        <div class="table-container">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Image</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in paniers %}
+                    <tr>
+                        <td>{{ item.prod.name }}</td>
+                        <td>
+                            <img {% if item.prod.image.url %} src="{{ item.prod.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="Produit">
+                        </td>
+                        <td>{{ item.prod.prix }} $</td>
+                        <td>
+                            {{ item.quantite }}
+                        </td>
+                        <td>{{ item.total_price_item|floatformat:2 }} $</td>
+                        <td>
+                            <a href="{% url 'update_panier' item.id %}" class="btn btn-edit"><i class="fa-solid fa-marker"></i></a>
+                            <a href="#" class="btn btn-remove"><i class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+
+        <h2>Total : {{ total_panier }}$</h2>
+        <a href="#" class="btn-checkout">Finaliser la commande</a>
+    {% else %}
+        <div class="sans_panier">
+            <p>Oups! vous n'avez pas encore un panier !</p>
+            <h1>Voulez vousen creer ? <i class="fa-solid fa-plus"></i></h1>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

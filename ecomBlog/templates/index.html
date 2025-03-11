@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop2846.exe</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <img src="media/logo/shop2.png" alt="Logo de Shop2846" class="logo">
+        <h1>Shop2846.exe</h1>
+        <nav class="navigation_bar">
+            <a href="{% url 'inscription' %}">Inscription</a>
+            <a href="{% url 'connexion' %}">Connexion</a>
+        </nav>
+    </header>
+
+    <main class="produits">
+        {% for p in prod %}
+            <div class="produit">
+                <h1>{{ p.name }}</h1>
+                <img {% if p.image.url %} src="{{ p.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="{{ p.name }}">
+                <p>{{ p.description }}</p>
+                <h3>{{ p.prix }}$</h3>
+                <a href="{% url 'connexion' %}">
+                    <i class="fa-solid fa-plus"></i> Ajouter au panier
+                </a>
+            </div>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <h1>@2846.exe | 2025 | 342.629.6</h1>
+    </footer>
+
+</body>
+
+<style>
+    /* Styles généraux */
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+
+    /* Header */
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 50px;
+        background-color: #222;
+        color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+        height: 100px;
+    }
+
+    header h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .navigation_bar a {
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        margin: 0 10px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #ff6600;
+        transition: 0.3s ease;
+    }
+
+    .navigation_bar a:hover {
+        background-color: #e55b00;
+    }
+
+    /* Produits */
+    .produits {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 40px;
+        gap: 20px;
+        height: 615px;
+        overflow: auto;
+    }
+
+    .produit {
+        background: white;
+        padding: 20px;
+        width: 320px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+        max-width: 350px;
+        height: 430px;
+    }
+
+    .produit:hover {
+        transform: translateY(-5px);
+    }
+
+    .produit h1 {
+        font-size: 22px;
+        color: #333;
+    }
+
+    .produit img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .produit p {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .produit h3 {
+        font-size: 20px;
+        color: #ff6600;
+        margin-bottom: 15px;
+    }
+
+    /* Bouton */
+    .produit a {
+        padding: 12px 18px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff6600;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+    .produit a:hover {
+        background-color: #e55b00;
+        transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+        background-color: #222;
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+</html>

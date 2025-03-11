@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier mon Panier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            padding: 20px 50px;
+            background-color: #222;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header a {
+            text-decoration: none;
+            background-color: #fff;
+            padding: 8px 10px;
+            color: #222;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: #777;
+        }
+
+        .quantity {
+            width: 60px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-remove {
+            background-color: red;
+            color: white;
+            margin-left: 20px;
+        }
+
+        .btn-remove:hover {
+            background-color: darkred;
+        }
+
+        .btn-save {
+            background-color: #ff6600;
+            color: white;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-save:hover {
+            background-color: #e55b00;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="btn"><i class="fa-solid fa-rotate-left"></i></a>
+</header>
+
+<div class="container">
+    <h2>Modifier mon Panier</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="product">
+            <img src="{% if item.prod.image.url %}{{ item.prod.image.url }}{% else %}media/logo/logo.png{% endif %}" alt="Produit">
+            <div class="product-info">
+                <h3>{{ item.prod.name }}</h3>
+                <p>Prix : {{ item.prod.prix }} $</p>
+                <label for="quantite_{{ item.id }}">Quantité:</label>
+                <input type="number" id="quantite_{{ item.id }}" name="quantite_{{ item.id }}" value="{{ item.quantite }}" class="quantity" min="1" required>
+                <p>Total : {{ item.total_price_item|floatformat:2 }} $</p>
+            </div>
+            <a href="#" class="btn btn-remove"><i class="fa-solid fa-trash"></i> Supprimer</a>
+        </div>
+
+        <button type="submit" class="btn-save">Sauvegarder les modifications</button>
+    </form>
+
+    <h2>Total du panier : {{ total_panier }}$</h2>
+    <a href="#" class="btn-save">Finaliser la commande</a>
+</div>
+
+</body>
+</html>
