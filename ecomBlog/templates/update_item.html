@@ -75,6 +75,15 @@
             color: #777;
         }
 
+        .product input{
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            outline: none;
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
         .quantity {
             width: 60px;
             text-align: center;
@@ -126,28 +135,24 @@
 </header>
 
 <div class="container">
-    <h2>Modifier mon Panier</h2>
+    <h2>Modifier la quantite .</h2>
 
-    <form method="POST">
+    <form method="POST" action="{% url 'edit_item' item.id %}">
         {% csrf_token %}
         
         <div class="product">
             <img src="{% if item.prod.image.url %}{{ item.prod.image.url }}{% else %}media/logo/logo.png{% endif %}" alt="Produit">
             <div class="product-info">
                 <h3>{{ item.prod.name }}</h3>
-                <p>Prix : {{ item.prod.prix }} $</p>
+                <p>Prix : {{ item.prod.prix }} Ar</p>
                 <label for="quantite_{{ item.id }}">Quantité:</label>
-                <input type="number" id="quantite_{{ item.id }}" name="quantite_{{ item.id }}" value="{{ item.quantite }}" class="quantity" min="1" required>
-                <p>Total : {{ item.total_price_item|floatformat:2 }} $</p>
+                <input type="number" id="quantite_{{ item.id }}" name="quantite" value="{{ item.quantite }}" class="quantity" min="1" required> pcs
             </div>
-            <a href="#" class="btn btn-remove"><i class="fa-solid fa-trash"></i> Supprimer</a>
+            <a href="{% url 'delete_item' item.id %}" class="btn btn-remove"><i class="fa-solid fa-trash"></i></a>
         </div>
 
         <button type="submit" class="btn-save">Sauvegarder les modifications</button>
     </form>
-
-    <h2>Total du panier : {{ total_panier }}$</h2>
-    <a href="#" class="btn-save">Finaliser la commande</a>
 </div>
 
 </body>

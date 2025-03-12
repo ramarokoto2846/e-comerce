@@ -25,6 +25,25 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        header a{
+            text-decoration: none;
+        }
+
+        header a h1{
+            position: absolute;
+            color: #222;
+            margin-top: -81px;
+            margin-left: 5px;
+            transition: 0.3s ease;
+            padding-left: 50px;
+            padding-top: 50px;
+        }
+
+        header a h1:hover{
+            display: block;
+            color: rgb(145, 134, 134);
+        }
+
         header img {
             height: 60px;
         }
@@ -54,9 +73,9 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            padding: 40px;
             gap: 20px;
-            height: 615px;
+            padding-top: 20px;
+            height: 755px;
             overflow: auto;
         }
 
@@ -93,6 +112,8 @@
             font-size: 16px;
             color: #555;
             margin-bottom: 10px;
+            height: 50px;
+            overflow: auto;
         }
 
         .produit h3 {
@@ -102,7 +123,7 @@
         }
 
         /* Bouton */
-        .produit button {
+        .produit a {
             padding: 12px 100px;
             border: none;
             border-radius: 5px;
@@ -110,10 +131,11 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            text-decoration: none;
             transition: 0.3s ease;
         }
 
-        .produit button:hover {
+        .produit a:hover {
             background-color: #e55b00;
             transform: scale(1.05);
         }
@@ -128,10 +150,11 @@
     <header>
         <a href="{% url 'pannier' %}">
             <img src="media/logo/logo1.png" alt="Panier">
+            <h1>Voir mon panier</h1>
         </a>
-        <h1><i class="fa-solid fa-circle-user"></i> {{ user.username }}</h1>
+        <h1><i class="fa-solid fa-circle-user"> {{ user.username }}</i></h1>
         <div class="navigation_bar">
-            <a href="{% url 'deconnexion' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            <a href="{% url 'deconnexion' %}"><i class="fa-solid fa-right-from-bracket"> Se deconecte</i></a>
         </div>
     </header>
 
@@ -141,8 +164,8 @@
                 <h1>{{ p.name }}</h1>
                 <img {% if p.image.url %} src="{{ p.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="Produit">
                 <p>{{ p.description }}</p>
-                <h3>{{ p.prix }}$</h3>
-                <button><i class="fa-solid fa-plus"></i></button>
+                <h3>{{ p.prix }}Ar</h3>
+                <a href="{% url 'ajouter_au_panier' p.id %}"><i class="fa-solid fa-plus"></i></a>
             </div>
         {% endfor %}
     </main>

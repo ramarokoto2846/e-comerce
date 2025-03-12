@@ -14,20 +14,24 @@
             background-color: #f8f9fa;
         }
 
-        /* Header */
-        header {
-            display: flex;
-            padding: 20px 50px;
-            background-color: #222;
-            color: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        header a{
+        h2 a{
             text-decoration: none;
             background-color: #fff;
             padding: 8px 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             color: #222;
+            float: left;
+        }
+
+        h5{
+            text-decoration: none;
+            background-color: #fff;
+            padding: 10px 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            color: #222;
+            width: 138px;
+            text-align: center;
+            border-radius: 6px;
         }
 
         .container {
@@ -70,8 +74,10 @@
             top: 0;
         }
 
+        
         tr:nth-child(even){
-            background-color: #b9b6b6;
+            background-color: #f1eded;
+            order: 2px solid red;
         }
 
         img {
@@ -93,6 +99,12 @@
             font-size: 14px;
         }
 
+        .description{
+            width: 500px;
+            height: 35px;
+            overflow: auto;
+        }
+
         .btn-remove {
             background-color: red;
             color: white;
@@ -112,13 +124,17 @@
             background-color: rgb(15, 39, 252);
         }
 
+        .nav_panier{
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
 
         .btn-checkout {
             display: block;
-            width: 100%;
+            width: 50%;
             text-align: center;
             padding: 12px;
-            background-color: #ff6600;
             color: white;
             border-radius: 5px;
             font-size: 18px;
@@ -126,7 +142,19 @@
             text-decoration: none;
         }
 
-        .btn-checkout:hover {
+        .all_remove{
+            background-color: red;
+        }
+
+        .all_remove:hover{
+            background-color: crimson;
+        }
+
+        .checkout {
+            background-color: #ff761b;
+        }
+
+        .checkout:hover {
             background-color: #e55b00;
         }
 
@@ -136,16 +164,18 @@
     </style>
 </head>
 <body>
-
-<header>
-    <a href="{% url 'connecte' %}" class="btn"><i class="fa-solid fa-rotate-left"></i></a>
-</header>
-
 <div class="container">
     {% if paniers %}
-        <h2>Mon panier</h2>
+    
 
+        <div class="header">
+            <h2><a href="{% url 'connecte' %}" class="btn">Retour au boutique</i></a><i class="fa-solid fa-circle-user"> {{ user.username }}</i></h2>
+            <h5>UID: {{ paniers.uid }} </h5>
+        </div>
+        
         <div class="table-container">
+
+            {% if items %}
             
             <table>
                 <thead>
@@ -159,34 +189,44 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in paniers %}
+                    {% for i in items %}
                     <tr>
-                        <td>{{ item.prod.name }}</td>
+                        <td class="description">{{ i.prod.name }}  <br> <span style="color: gray;">uid: {{ i.prod.description }}</span> </td>
                         <td>
-                            <img {% if item.prod.image.url %} src="{{ item.prod.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="Produit">
+                            <img {% if i.prod.image.url %} src="{{ i.prod.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="Produit">
                         </td>
-                        <td>{{ item.prod.prix }} $</td>
+                        <td>{{ i.prod.prix }} Ar</td>
                         <td>
-                            {{ item.quantite }}
+                            {{ i.quantite }}
                         </td>
-                        <td>{{ item.total_price_item|floatformat:2 }} $</td>
+                        <td>{{ i.total_price|floatformat:2 }} Ar</td>
                         <td>
-                            <a href="{% url 'update_panier' item.id %}" class="btn btn-edit"><i class="fa-solid fa-marker"></i></a>
-                            <a href="#" class="btn btn-remove"><i class="fa-solid fa-trash"></i></a>
+                            <a href="{% url 'edit_item' i.id %}" class="btn btn-edit"><i class="fa-solid fa-marker"></i></a>
+                            <a href="{% url 'delete_item' i.id %}" class="btn btn-remove"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             
+            {% else %}
+                <div class="sans_panier">
+                    <p>Oups! votre panier est vide .</p>
+                    <h1>Ajoutons en des produits .</h1>
+                </div>
+            {% endif %}
+            
         </div>
 
-        <h2>Total : {{ total_panier }}$</h2>
-        <a href="#" class="btn-checkout">Finaliser la commande</a>
+        <h2>Total : {{ total_price_panier|floatformat:2 }} Ar</h2>
+        <div class="nav_panier">
+            <a href="#" class="btn-checkout checkout" >Aller au payement</a>
+            <a href="{% url 'delete_panier' %}" class="btn-checkout all_remove">Vider le panier</a>
+        </div>
     {% else %}
         <div class="sans_panier">
             <p>Oups! vous n'avez pas encore un panier !</p>
-            <h1>Voulez vousen creer ? <i class="fa-solid fa-plus"></i></h1>
+            <h1>Veuillez ajouter un produit pour en avoir ! <a href="{% url 'connecte' %}" class="btn">Retour au boutique</i></a></h1>
         </div>
     {% endif %}
 </div>

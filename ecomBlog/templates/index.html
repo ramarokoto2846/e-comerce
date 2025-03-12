@@ -18,17 +18,24 @@
     </header>
 
     <main class="produits">
-        {% for p in prod %}
-            <div class="produit">
-                <h1>{{ p.name }}</h1>
-                <img {% if p.image.url %} src="{{ p.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="{{ p.name }}">
-                <p>{{ p.description }}</p>
-                <h3>{{ p.prix }}$</h3>
-                <a href="{% url 'connexion' %}">
-                    <i class="fa-solid fa-plus"></i> Ajouter au panier
-                </a>
+        {% if prod %}
+            {% for p in prod %}
+                <div class="produit">
+                    <h1>{{ p.name }}</h1>
+                    <img {% if p.image.url %} src="{{ p.image.url }}" {% else %} src="media/logo/logo.png" {% endif %} alt="{{ p.name }}">
+                    <p>{{ p.description }}</p>
+                    <h3>{{ p.prix }}Ar</h3>
+                    <a href="{% url 'connexion' %}">
+                        <i class="fa-solid fa-plus"></i> Ajouter au panier
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="boutique_vide">
+                <h1>Ooouuuuppss ! Le Shop est vide pour le moment !</h1>
+                <img src="media/logo/logo1.png" alt="shopvide">
             </div>
-        {% endfor %}
+        {% endif %}
     </main>
 
     <footer>
@@ -55,6 +62,25 @@
         background-color: #222;
         color: white;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .boutique_vide {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        width: 80%;
+        margin: 40px auto;
+        background: white;
+        color: rgb(112, 105, 105);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .boutique_vide img{
+        width: 400px;
+        height: 400px;
     }
 
     .logo {
@@ -88,7 +114,7 @@
         flex-wrap: wrap;
         padding: 40px;
         gap: 20px;
-        height: 615px;
+        height: 619px;
         overflow: auto;
     }
 
@@ -125,6 +151,8 @@
         font-size: 16px;
         color: #555;
         margin-bottom: 10px;
+        height: 50px;
+        overflow: auto;
     }
 
     .produit h3 {
@@ -157,8 +185,8 @@
         color: white;
         text-align: center;
         padding: 15px 0;
-        margin-top: 20px;
         font-size: 14px;
+        height: 50px;
     }
 
     ::-webkit-scrollbar {
